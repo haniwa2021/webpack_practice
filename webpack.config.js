@@ -1,5 +1,6 @@
 const path = require('path');
-const { kill } = require('process');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
     entry: './src/index.js',
@@ -13,7 +14,7 @@ module.exports = {
                 test: /\.css/,  // .cssを検知したら…
                 use: [          // -> css-loaderを使う
                     {
-                        loader: 'style-loader',
+                        loader: MiniCssExtractPlugin.loader,
                     },
                     {
                         loader: 'css-loader',
@@ -22,4 +23,10 @@ module.exports = {
             },
         ],
     },
+    plugins: [
+        new MiniCssExtractPlugin(),
+        new HtmlWebpackPlugin({
+            template: './src/index.html',
+        }),
+    ]
 }
