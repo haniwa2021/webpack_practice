@@ -2,12 +2,13 @@ const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const { loader } = require('mini-css-extract-plugin');
 
 module.exports = {
     entry: './src/javascripts/main.js',
     output: {
         path: path.resolve(__dirname, './dist'),
-        filename: './javascritpts/my.js',
+        filename: './javascritpts/main.js',
     },
     module: {
         rules: [
@@ -20,6 +21,18 @@ module.exports = {
                     {
                         loader: 'css-loader',
                     },  // 下から適応されるのに注意！！
+                ],
+            },
+            {
+                test: /\.(png|jpg)/,
+                use: [
+                    {
+                        loader: 'file-loader',
+                        options: {
+                            esModule: false,
+                            name: 'images/[name].[ext]',
+                        }
+                    },
                 ],
             },
         ],
