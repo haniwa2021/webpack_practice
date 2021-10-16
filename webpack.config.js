@@ -1,37 +1,52 @@
-const path = require('path');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-const { loader } = require('mini-css-extract-plugin');
+const path = require("path");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+const { loader } = require("mini-css-extract-plugin");
 
 module.exports = {
-    entry: './src/javascripts/main.js',
+    entry: "./src/javascripts/main.js",
     output: {
-        path: path.resolve(__dirname, './dist'),
-        filename: './javascritpts/main.js',
+        path: path.resolve(__dirname, "./dist"),
+        filename: "./javascritpts/main.js",
     },
     module: {
         rules: [
             {
-                test: /\.css/,  // .cssを検知したら…
-                use: [          // -> css-loader & mini-css-extract-pluginを使う
+                test: /\.css/, // .cssを検知したら…
+                use: [
+                    // -> css-loader & mini-css-extract-pluginを使う
                     {
                         loader: MiniCssExtractPlugin.loader,
                     },
                     {
-                        loader: 'css-loader',
-                    },  // 下から適応されるのに注意！！
+                        loader: "css-loader",
+                    }, // 下から適応されるのに注意！！
                 ],
             },
             {
                 test: /\.(png|jpg)/,
                 use: [
                     {
-                        loader: 'file-loader',
+                        loader: "file-loader",
                         options: {
                             esModule: false,
-                            name: 'images/[name].[ext]',
-                        }
+                            name: "images/[name].[ext]",
+                        },
+                    },
+                ],
+            },
+            {
+                test: /\.pug/,
+                use: [
+                    {
+                        loader: "html-loader",
+                    },
+                    {
+                        loader: "pug-html-loader",
+                        options: {
+                            pretty: true,
+                        },
                     },
                 ],
             },
@@ -39,11 +54,16 @@ module.exports = {
     },
     plugins: [
         new MiniCssExtractPlugin({
-            filename: './stylesheets/main.css',
+            filename: "./stylesheets/main.css",
         }),
         new HtmlWebpackPlugin({
-            template: './src/templates/index.html',
+            template: "./src/templates/index.pug",
+            filename: "index.html",
+        }),
+        new HtmlWebpackPlugin({
+            template: "./src/templates/access.pug",
+            filename: "access.html",
         }),
         new CleanWebpackPlugin(),
-    ]
-}
+    ],
+};
