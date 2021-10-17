@@ -13,15 +13,17 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.css/, // .cssを検知したら…
-                use: [
-                    // -> css-loader & mini-css-extract-pluginを使う
+                test: /\.(css|sass|scss)/, // .cssを検知したら…
+                use: [  // -> 以下のローダー等が、下から走る
                     {
                         loader: MiniCssExtractPlugin.loader,
                     },
                     {
                         loader: "css-loader",
-                    }, // 下から適応されるのに注意！！
+                    },
+                    {
+                        loader: "sass-loader",
+                    },
                 ],
             },
             {
